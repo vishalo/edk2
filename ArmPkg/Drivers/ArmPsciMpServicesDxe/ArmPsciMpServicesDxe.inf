@@ -18,6 +18,7 @@
 
 [Sources.Common]
   ArmPsciMpServicesDxe.c
+  ArmPsciMpServicesDxeProtocol.c
   MpFuncs.S
   MpServicesInternal.h
 
