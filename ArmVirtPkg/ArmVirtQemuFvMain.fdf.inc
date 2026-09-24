@@ -48,6 +48,9 @@ READ_LOCK_STATUS   = TRUE
   # PI DXE Drivers producing Architectural Protocols (EFI Services)
   #
   INF ArmPkg/Drivers/CpuDxe/CpuDxe.inf
+!if $(PLAT_QEMU) == TRUE
+  INF ArmPkg/Drivers/ArmPsciMpServicesDxe/ArmPsciMpServicesDxe.inf
+!endif
   INF MdeModulePkg/Core/RuntimeDxe/RuntimeDxe.inf
   INF MdeModulePkg/Universal/SecurityStubDxe/SecurityStubDxe.inf
   INF MdeModulePkg/Universal/CapsuleRuntimeDxe/CapsuleRuntimeDxe.inf

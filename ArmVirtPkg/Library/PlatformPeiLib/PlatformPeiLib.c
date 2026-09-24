@@ -18,10 +18,13 @@
 #include <Library/PcdLib.h>
 #include <Library/PeiServicesLib.h>
 #include <Library/FdtSerialPortAddressLib.h>
+#include <Library/QemuFwCfgLib.h>
 #include <Library/QemuFwCfgSimpleParserLib.h>
 
+#include <Guid/ArmMpCoreInfo.h>
 #include <Guid/EarlyPL011BaseAddress.h>
 #include <Guid/FdtHob.h>
+#include <IndustryStandard/QemuFwCfg.h>
 
 //
 // Duplicated in ArmVirtPkg/Library/DebugLibFdtPL011Uart/Flash.c —
@@ -85,6 +88,66 @@ STATIC CONST EFI_PEI_PPI_DESCRIPTOR  mTpm2InitializationDonePpi = {
   NULL
 };
 
+#define MAX_QEMU_CPU_COUNT  8
+
+/**
+  Build the MP core information HOB for QEMU.
+
+  QEMU publishes the number of boot CPUs through fw_cfg. The MP library
+  consumes the resulting HOB to initialize the MP Services protocol.
+**/
+STATIC
+VOID
+BuildQemuMpCoreInfoHob (
+  VOID
+  )
+{
+  UINT16         ProcessorCount;
+  UINTN          Index;
+  ARM_CORE_INFO  *CoreInfo;
+
+  if (!QemuFwCfgIsAvailable ()) {
+    return;
+  }
+
+  QemuFwCfgSelectItem (QemuFwCfgItemSmpCpuCount);
+  ProcessorCount = QemuFwCfgRead16 ();
+  if (ProcessorCount == 0) {
+    return;
+  }
+
+  if (ProcessorCount > MAX_QEMU_CPU_COUNT) {
+    DEBUG ((
+      DEBUG_INFO,
+      "%a: QEMU SMP CPU count: %u, keeping max to 8\n",
+      __func__,
+      ProcessorCount
+      ));
+    ProcessorCount = MAX_QEMU_CPU_COUNT;
+  }
+
+  CoreInfo = BuildGuidHob (
+               &gArmMpCoreInfoGuid,
+               sizeof (*CoreInfo) * ProcessorCount
+               );
+  ASSERT (CoreInfo != NULL);
+  if (CoreInfo == NULL) {
+    return;
+  }
+
+  ZeroMem (CoreInfo, sizeof (*CoreInfo) * ProcessorCount);
+  for (Index = 0; Index < ProcessorCount; Index++) {
+    CoreInfo[Index].Mpidr = Index;
+  }
+
+  DEBUG ((
+    DEBUG_INFO,
+    "%a: QEMU SMP CPU count: %u\n",
+    __func__,
+    ProcessorCount
+    ));
+}
+
 EFI_STATUS
 EFIAPI
 PlatformPeim (
@@ -125,6 +188,8 @@ PlatformPeim (
   FdtHobData = BuildGuidHob (&gFdtHobGuid, sizeof *FdtHobData);
   ASSERT (FdtHobData != NULL);
   *FdtHobData = (UINTN)NewBase;
+
+  BuildQemuMpCoreInfoHob ();
 
   UartHobData = BuildGuidHob (&gEarlyPL011BaseAddressGuid, sizeof *UartHobData);
   ASSERT (UartHobData != NULL);
