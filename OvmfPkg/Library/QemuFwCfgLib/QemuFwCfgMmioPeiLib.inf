@@ -16,7 +16,7 @@
   FILE_GUID                      = CDF9A9D5-7422-4DCB-B41D-607151AD320B
   MODULE_TYPE                    = BASE
   VERSION_STRING                 = 1.0
-  LIBRARY_CLASS                  = QemuFwCfgLib|PEIM
+  LIBRARY_CLASS                  = QemuFwCfgLib|PEIM SEC
 
   CONSTRUCTOR                    = QemuFwCfgInitialize
 

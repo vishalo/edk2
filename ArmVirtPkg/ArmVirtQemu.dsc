@@ -67,6 +67,8 @@
 !include ArmVirtPkg/ArmVirt.dsc.inc
 
 [LibraryClasses.common]
+  MpInitLib|UefiCpuPkg/Library/MpInitLib/DxeMpInitLib.inf
+  SynchronizationLib|MdePkg/Library/BaseSynchronizationLib/BaseSynchronizationLib.inf
   ArmTransferListLib|ArmPkg/Library/ArmTransferListLib/ArmTransferListLib.inf
 
   QemuFwCfgLib|OvmfPkg/Library/QemuFwCfgLib/QemuFwCfgMmioDxeLib.inf
@@ -275,6 +277,7 @@
 
 [LibraryClasses.common.SEC]
   MemDebugLogLib|OvmfPkg/Library/MemDebugLogLib/MemDebugLogLibNull.inf
+  QemuFwCfgLib|OvmfPkg/Library/QemuFwCfgLib/QemuFwCfgMmioPeiLib.inf
 
 [LibraryClasses.common.PEI_CORE]
 !if $(DEBUG_TO_MEM)
@@ -304,6 +307,7 @@
   ArmPlatformPkg/PlatformPei/PlatformPeim.inf
   ArmVirtPkg/MemoryInitPei/MemoryInitPeim.inf
   ArmPkg/Drivers/CpuPei/CpuPei.inf
+  ArmPkg/Drivers/ArmPsciMpServicesDxe/ArmPsciMpServicesDxe.inf
 
 !if $(DEBUG_TO_MEM)
   OvmfPkg/MemDebugLogPei/MemDebugLogPei.inf {
@@ -364,6 +368,7 @@
   OvmfPkg/VirtioInputDxe/VirtioInput.inf
 
   MdeModulePkg/Application/BootManagerMenuApp/BootManagerMenuApp.inf
+  ArmPkg/Application/MpServicesTest/MpServicesTest.inf
   OvmfPkg/QemuKernelLoaderFsDxe/QemuKernelLoaderFsDxe.inf {
     <LibraryClasses>
       NULL|OvmfPkg/Library/BlobVerifierLibNull/BlobVerifierLibNull.inf

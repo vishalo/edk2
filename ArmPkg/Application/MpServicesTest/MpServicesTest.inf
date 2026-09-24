@@ -1,0 +1,29 @@
+## @file
+#  Basic runtime test for the ARM MP Services implementation.
+#
+#  SPDX-License-Identifier: BSD-2-Clause-Patent
+##
+
+[Defines]
+  INF_VERSION    = 0x00010005
+  BASE_NAME      = MpServicesTest
+  FILE_GUID      = 7D5E4D1B-6B0E-4F7C-9B9C-41C9E2F8A3A4
+  MODULE_TYPE    = UEFI_APPLICATION
+  VERSION_STRING = 1.0
+  ENTRY_POINT    = UefiMain
+
+[Sources]
+  MpServicesTest.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+
+[LibraryClasses]
+  BaseLib
+  SynchronizationLib
+  UefiApplicationEntryPoint
+  UefiBootServicesTableLib
+  UefiLib
+
+[Protocols]
+  gEfiMpServiceProtocolGuid  ## CONSUMES

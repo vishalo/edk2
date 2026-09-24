@@ -21,12 +21,15 @@
 [Packages]
   MdePkg/MdePkg.dec
   MdeModulePkg/MdeModulePkg.dec
+  OvmfPkg/OvmfPkg.dec
   ArmPkg/ArmPkg.dec
   ArmPlatformPkg/ArmPlatformPkg.dec
 
 [LibraryClasses]
   ArmLib
   DebugLib
+  MemoryAllocationLib
+  QemuFwCfgLib
 
 [Sources.common]
   ArmPlatformLibQemu.c
@@ -36,3 +39,6 @@
 [FixedPcd]
   gArmTokenSpaceGuid.PcdArmPrimaryCoreMask
   gArmTokenSpaceGuid.PcdArmPrimaryCore
+
+[Ppis]
+  gArmMpCoreInfoPpiGuid

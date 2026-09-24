@@ -1,5 +1,5 @@
 /** @file
-  ARM MP services protocol driver entry point.
+  Install the ARM MP Services protocol.
 
   Copyright (c) 2022, Qualcomm Innovation Center, Inc. All rights reserved.<BR>
   SPDX-License-Identifier: BSD-2-Clause-Patent
@@ -9,28 +9,13 @@
 
 #include <Library/CacheMaintenanceLib.h>
 #include <Library/DebugLib.h>
-#include <Library/HobLib.h>
+#include <Library/MpInitLib.h>
 #include <Library/UefiBootServicesTableLib.h>
-#include <Library/UefiDriverEntryPoint.h>
 #include <Protocol/LoadedImage.h>
 #include <Protocol/MpService.h>
-#include <Ppi/ArmMpCoreInfo.h>
 
-extern EFI_MP_SERVICES_PROTOCOL  mMpServicesProtocol;
-extern EFI_STATUS
-MpServicesInitialize (
-  IN UINTN                 NumberOfProcessors,
-  IN CONST ARM_CORE_INFO  *CoreInfo
-  );
+extern EFI_MP_SERVICES_PROTOCOL  gArmPsciMpServicesProtocol;
 
-/** Initialize multi-processor support.
-
-  @param ImageHandle  Image handle.
-  @param SystemTable  System table.
-
-  @return EFI_SUCCESS on success, or an error code.
-
-**/
 EFI_STATUS
 EFIAPI
 ArmPsciMpServicesDxeInitialize (
@@ -40,14 +25,9 @@ ArmPsciMpServicesDxeInitialize (
 {
   EFI_STATUS                 Status;
   EFI_HANDLE                 Handle;
-  UINTN                      MaxCpus;
   EFI_LOADED_IMAGE_PROTOCOL  *Image;
-  EFI_HOB_GENERIC_HEADER     *Hob;
-  VOID                       *HobData;
-  UINTN                      HobDataSize;
-  CONST ARM_CORE_INFO        *CoreInfo;
 
-  MaxCpus = 1;
+  (VOID)SystemTable;
 
   Status = gBS->HandleProtocol (
                   ImageHandle,
@@ -55,45 +35,24 @@ ArmPsciMpServicesDxeInitialize (
                   (VOID **)&Image
                   );
   ASSERT_EFI_ERROR (Status);
-
-  //
-  // Parts of the code in this driver may be executed by other cores running
-  // with the MMU off so we need to ensure that everything is clean to the
-  // point of coherency (PoC)
-  //
-  WriteBackDataCacheRange (Image->ImageBase, Image->ImageSize);
-
-  Hob = GetFirstGuidHob (&gArmMpCoreInfoGuid);
-  if (Hob != NULL) {
-    HobData     = GET_GUID_HOB_DATA (Hob);
-    HobDataSize = GET_GUID_HOB_DATA_SIZE (Hob);
-    CoreInfo    = (ARM_CORE_INFO *)HobData;
-    MaxCpus     = HobDataSize / sizeof (ARM_CORE_INFO);
-  }
-
-  if (MaxCpus == 1) {
-    DEBUG ((DEBUG_WARN, "Trying to use EFI_MP_SERVICES_PROTOCOL on a UP system"));
-    // We are not MP so nothing to do
-    return EFI_NOT_FOUND;
-  }
-
-  Status = MpServicesInitialize (MaxCpus, CoreInfo);
-  if (Status != EFI_SUCCESS) {
-    ASSERT_EFI_ERROR (Status);
+  if (EFI_ERROR (Status)) {
     return Status;
   }
 
-  //
-  // Now install the MP services protocol.
-  //
-  Handle = NULL;
-  Status = gBS->InstallMultipleProtocolInterfaces (
-                  &Handle,
-                  &gEfiMpServiceProtocolGuid,
-                  &mMpServicesProtocol,
-                  NULL
-                  );
-  ASSERT_EFI_ERROR (Status);
+  // AP entry code can run with the MMU disabled, so make the driver image
+  // visible to all processors before starting any AP.
+  WriteBackDataCacheRange (Image->ImageBase, Image->ImageSize);
 
-  return Status;
+  Status = MpInitLibInitialize ();
+  if (EFI_ERROR (Status)) {
+    return Status;
+  }
+
+  Handle = NULL;
+  return gBS->InstallMultipleProtocolInterfaces (
+                &Handle,
+                &gEfiMpServiceProtocolGuid,
+                &gArmPsciMpServicesProtocol,
+                NULL
+                );
 }

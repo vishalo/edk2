@@ -70,6 +70,7 @@ typedef struct {
   UINTN               StartedNumber;
   CPU_AP_DATA         *CpuData;
   UINTN               *FailedList;
+  UINTN               **FailedCpuList;
   UINTN               FailedListIndex;
   UINTN               AllTimeout;
   UINTN               AllTimeTaken;
