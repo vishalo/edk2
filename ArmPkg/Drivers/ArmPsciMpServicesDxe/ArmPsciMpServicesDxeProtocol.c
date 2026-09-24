@@ -131,6 +131,7 @@ ArmPsciMpServicesWhoAmI (
   return ArmPsciWhoAmI (ProcessorNumber);
 }
 
+/** The ARM MP Services protocol instance installed by the driver. */
 EFI_MP_SERVICES_PROTOCOL  gArmPsciMpServicesProtocol = {
   ArmPsciMpServicesGetNumberOfProcessors,
   ArmPsciMpServicesGetProcessorInfo,

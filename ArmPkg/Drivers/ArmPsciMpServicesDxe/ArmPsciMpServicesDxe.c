@@ -16,6 +16,17 @@
 
 extern EFI_MP_SERVICES_PROTOCOL  gArmPsciMpServicesProtocol;
 
+/**
+  Initialize the ARM MP Services protocol driver.
+
+  @param[in] ImageHandle  The image handle of this driver.
+  @param[in] SystemTable  The UEFI system table.
+
+  @retval EFI_SUCCESS           The MP Services protocol was installed.
+  @retval EFI_INVALID_PARAMETER A required parameter was invalid.
+  @retval EFI_NOT_FOUND         The loaded-image protocol was not found.
+  @retval EFI_OUT_OF_RESOURCES  MP Services initialization failed.
+**/
 EFI_STATUS
 EFIAPI
 ArmPsciMpServicesDxeInitialize (

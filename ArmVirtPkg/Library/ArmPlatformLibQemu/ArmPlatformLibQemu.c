@@ -21,8 +21,12 @@ STATIC UINTN          mArmPlatformQemuMpCoreCount;
   @param[out] CoreCount     Number of entries in ArmCoreTable.
   @param[out] ArmCoreTable  Table describing the available cores.
 
-  @retval EFI_SUCCESS       The MP core information was returned.
-  @retval EFI_UNSUPPORTED   The platform is running on a single core.
+  @retval EFI_SUCCESS            The MP core information was returned.
+  @retval EFI_DEVICE_ERROR       The firmware reported an invalid CPU count.
+  @retval EFI_INVALID_PARAMETER  A required output parameter was NULL.
+  @retval EFI_OUT_OF_RESOURCES   The MP core table could not be allocated.
+  @retval EFI_UNSUPPORTED        The platform is running on a single core or
+                                 fw_cfg is unavailable.
 **/
 STATIC
 EFI_STATUS

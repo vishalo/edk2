@@ -1,6 +1,7 @@
 /** @file
   Basic runtime test for the ARM MP Services implementation.
 
+  Copyright (c) 2026, Qualcomm Innovation Center, Inc. All rights reserved.<BR>
   SPDX-License-Identifier: BSD-2-Clause-Patent
 **/
 
@@ -27,6 +28,15 @@ MpServicesTestApProcedure (
   InterlockedIncrement ((UINT32 *)&mApCallbackCount);
 }
 
+/**
+  Run the ARM MP Services runtime test.
+
+  @param[in] ImageHandle  The image handle of this application.
+  @param[in] SystemTable  The UEFI system table.
+
+  @retval EFI_SUCCESS  All MP Services checks passed.
+  @retval other        An MP Services operation or test check failed.
+**/
 EFI_STATUS
 EFIAPI
 UefiMain (
@@ -35,12 +45,12 @@ UefiMain (
   )
 {
   EFI_STATUS              Status;
-  EFI_MP_SERVICES_PROTOCOL *MpServices;
-  EFI_EVENT                 CompletionEvent;
-  UINTN                   NumberOfProcessors;
-  UINTN                   NumberOfEnabledProcessors;
-  UINTN                   EventIndex;
-  UINT32                  ExpectedCallbacks;
+  EFI_MP_SERVICES_PROTOCOL  *MpServices;
+  EFI_EVENT                  CompletionEvent;
+  UINTN                      NumberOfProcessors;
+  UINTN                      NumberOfEnabledProcessors;
+  UINTN                      EventIndex;
+  UINT32                     ExpectedCallbacks;
 
   (VOID)ImageHandle;
   (VOID)SystemTable;
@@ -83,7 +93,7 @@ UefiMain (
                          MpServicesTestApProcedure,
                          FALSE,
                          NULL,
-                          5000000,
+                         5000000,
                          NULL,
                          NULL
                          );
