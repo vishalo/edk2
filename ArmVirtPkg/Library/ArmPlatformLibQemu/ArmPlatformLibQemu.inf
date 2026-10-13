@@ -23,6 +23,8 @@
   MdeModulePkg/MdeModulePkg.dec
   ArmPkg/ArmPkg.dec
   ArmPlatformPkg/ArmPlatformPkg.dec
+  UefiCpuPkg/UefiCpuPkg.dec
+  UefiCpuPkg/UefiCpuPkg.dec
 
 [LibraryClasses]
   ArmLib
@@ -32,6 +34,9 @@
   ArmPlatformLibQemu.c
   IdMap.S
   ArmPlatformHelper.S
+
+[Ppis]
+  gArmMpCoreInfoPpiGuid
 
 [FixedPcd]
   gArmTokenSpaceGuid.PcdArmPrimaryCoreMask
