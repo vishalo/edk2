@@ -17,6 +17,7 @@
   MdePkg/MdePkg.dec
   MdeModulePkg/MdeModulePkg.dec
   ArmPkg/ArmPkg.dec
+  UefiCpuPkg/UefiCpuPkg.dec
   ArmPlatformPkg/ArmPlatformPkg.dec
 
 [LibraryClasses]

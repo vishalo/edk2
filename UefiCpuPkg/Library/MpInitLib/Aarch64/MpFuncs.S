@@ -11,7 +11,7 @@
 #include <IndustryStandard/ArmStdSmc.h>
 #include <Library/ArmLib.h>
 
-#include "MpServicesInternal.h"
+#include "MpLib.h"
 
 GCC_ASM_IMPORT (gApStacksBase)
 GCC_ASM_IMPORT (gProcessorIDs)

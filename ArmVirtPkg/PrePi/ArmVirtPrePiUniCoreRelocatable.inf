@@ -27,6 +27,7 @@
   MdeModulePkg/MdeModulePkg.dec
   EmbeddedPkg/EmbeddedPkg.dec
   ArmPkg/ArmPkg.dec
+  UefiCpuPkg/UefiCpuPkg.dec
   ArmPlatformPkg/ArmPlatformPkg.dec
   ArmVirtPkg/ArmVirtPkg.dec
   OvmfPkg/OvmfPkg.dec
