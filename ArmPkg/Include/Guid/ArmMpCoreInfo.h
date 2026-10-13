@@ -8,10 +8,6 @@
 
 #pragma once
 
-#define MAX_CPUS_PER_MPCORE_SYSTEM  0x04
-#define SCU_CONFIG_REG_OFFSET       0x04
-#define MPIDR_U_BIT_MASK            0x40000000
-
 typedef struct {
   UINT64                  Mpidr;
 
