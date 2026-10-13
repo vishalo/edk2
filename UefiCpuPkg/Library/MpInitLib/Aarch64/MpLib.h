@@ -10,11 +10,9 @@ SPDX-License-Identifier: BSD-2-Clause-Patent
 
 #pragma once
 
-#include <Protocol/Cpu.h>
 #include <Protocol/MpService.h>
 
 #include <Library/BaseLib.h>
-#include <Library/UefiLib.h>
 #include <Guid/ArmMpCoreInfo.h>
 
 #define AP_STACK_SIZE  0x1000

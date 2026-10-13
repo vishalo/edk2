@@ -47,6 +47,12 @@
   LoongArch64/MpLib.c
   LoongArch64/MpLib.h
 
+[Sources.AARCH64]
+  Aarch64/PeiMpLib.c
+  Aarch64/MpCommon.c
+  Aarch64/MpFuncs.S
+  Aarch64/MpLib.h
+
 [Packages]
   MdePkg/MdePkg.dec
   MdeModulePkg/MdeModulePkg.dec
@@ -59,6 +65,8 @@
   MemoryAllocationLib
   PcdLib
   PeiServicesLib
+
+[LibraryClasses.IA32, LibraryClasses.X64, LibraryClasses.LoongArch64]
   SynchronizationLib
 
 [LibraryClasses.IA32, LibraryClasses.X64]
@@ -70,7 +78,7 @@
   MtrrLib
   CpuPageTableLib
 
-[Pcd]
+[Pcd.IA32, Pcd.X64, Pcd.LoongArch64]
   gEfiMdeModulePkgTokenSpaceGuid.PcdGhcbBase                       ## CONSUMES
   gEfiMdePkgTokenSpaceGuid.PcdConfidentialComputingGuestAttr       ## CONSUMES
   gUefiCpuPkgTokenSpaceGuid.PcdCpuMaxLogicalProcessorNumber        ## CONSUMES
@@ -96,3 +104,21 @@
 
 [Guids.LoongArch64]
   gProcessorResourceHobGuid              ## SOMETIMES_CONSUMES  ## HOB
+
+[LibraryClasses.AARCH64]
+  ArmLib
+  ArmMmuLib
+  ArmSmcLib
+  BaseMemoryLib
+  CacheMaintenanceLib
+  CpuExceptionHandlerLib
+  DebugLib
+  HobLib
+  MemoryAllocationLib
+  TimerLib
+
+[Guids.AARCH64]
+  gArmMpCoreInfoGuid                     ## SOMETIMES_CONSUMES  ## HOB
+
+[BuildOptions]
+  GCC:*_*_AARCH64_CC_FLAGS = -mstrict-align
