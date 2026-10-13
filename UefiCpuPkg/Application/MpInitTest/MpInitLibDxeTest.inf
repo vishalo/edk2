@@ -1,0 +1,36 @@
+## @file
+#  DXE driver that tests the DXE instance of MpInitLib.
+#
+#  Copyright (c) 2026, Qualcomm Innovation Center, Inc. All rights reserved.<BR>
+#
+#  SPDX-License-Identifier: BSD-2-Clause-Patent
+#
+##
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = MpInitLibDxeTest
+  FILE_GUID                      = 7C3E1A9D-5B20-4F6E-8D41-2A9B6C7E0F15
+  MODULE_TYPE                    = DXE_DRIVER
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = MpInitLibDxeTestEntryPoint
+
+[Depex]
+  TRUE
+
+[Sources]
+  MpInitLibDxeTest.c
+  MpInitTestCommon.c
+  MpInitTestCommon.h
+
+[Packages]
+  MdePkg/MdePkg.dec
+  UefiCpuPkg/UefiCpuPkg.dec
+
+[LibraryClasses]
+  BaseLib
+  DebugLib
+  SynchronizationLib
+  MpInitLib
+  SynchronizationLib
+  UefiDriverEntryPoint

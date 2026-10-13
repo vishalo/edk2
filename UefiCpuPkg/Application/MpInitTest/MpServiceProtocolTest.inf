@@ -1,0 +1,38 @@
+## @file
+#  DXE driver that tests the EFI_MP_SERVICES_PROTOCOL instance.
+#
+#  Copyright (c) 2026, Qualcomm Innovation Center, Inc. All rights reserved.<BR>
+#
+#  SPDX-License-Identifier: BSD-2-Clause-Patent
+#
+##
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = MpServiceProtocolTest
+  FILE_GUID                      = 2E8D5B7F-9C41-4A3E-B6D2-5F1A8C9E3B04
+  MODULE_TYPE                    = DXE_DRIVER
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = MpServiceProtocolTestEntryPoint
+
+[Sources]
+  MpServiceProtocolTest.c
+  MpInitTestCommon.c
+  MpInitTestCommon.h
+
+[Packages]
+  MdePkg/MdePkg.dec
+  UefiCpuPkg/UefiCpuPkg.dec
+
+[LibraryClasses]
+  BaseLib
+  DebugLib
+  SynchronizationLib
+  UefiBootServicesTableLib
+  UefiDriverEntryPoint
+
+[Protocols]
+  gEfiMpServiceProtocolGuid                     ## CONSUMES
+
+[Depex]
+  gEfiMpServiceProtocolGuid

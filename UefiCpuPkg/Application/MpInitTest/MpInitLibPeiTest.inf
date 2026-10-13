@@ -1,0 +1,37 @@
+## @file
+#  PEIM that tests the PEI instance of MpInitLib.
+#
+#  Copyright (c) 2026, Qualcomm Innovation Center, Inc. All rights reserved.<BR>
+#
+#  SPDX-License-Identifier: BSD-2-Clause-Patent
+#
+##
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = MpInitLibPeiTest
+  FILE_GUID                      = 4A9B6C2E-1D7F-4E83-9B5A-3C2F8E1D7A60
+  MODULE_TYPE                    = PEIM
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = MpInitLibPeiTestEntryPoint
+
+[Depex]
+  TRUE
+
+[Sources]
+  MpInitLibPeiTest.c
+  MpInitTestCommon.c
+  MpInitTestCommon.h
+
+[Packages]
+  MdePkg/MdePkg.dec
+  UefiCpuPkg/UefiCpuPkg.dec
+
+[LibraryClasses]
+  BaseLib
+  DebugLib
+  SynchronizationLib
+  MpInitLib
+  SynchronizationLib
+  PeimEntryPoint
+  PeiServicesLib

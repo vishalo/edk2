@@ -306,6 +306,16 @@
   ArmVirtPkg/MemoryInitPei/MemoryInitPeim.inf
   ArmPkg/Drivers/CpuPei/CpuPei.inf
 
+  #
+  # MpInitLib tests (PEI, DXE and EFI_MP_SERVICES_PROTOCOL)
+  #
+  UefiCpuPkg/Application/MpInitTest/MpInitLibPeiTest.inf {
+    <LibraryClasses>
+      MpInitLib|UefiCpuPkg/Library/MpInitLib/PeiMpInitLib.inf
+      TimerLib|ArmPkg/Library/ArmArchTimerLib/ArmArchTimerLib.inf
+      CpuExceptionHandlerLib|UefiCpuPkg/Library/CpuExceptionHandlerLib/SecPeiCpuExceptionHandlerLib.inf
+  }
+
 !if $(DEBUG_TO_MEM)
   OvmfPkg/MemDebugLogPei/MemDebugLogPei.inf {
     <LibraryClasses>
@@ -435,6 +445,15 @@
   OvmfPkg/PlatformHasAcpiDtDxe/PlatformHasAcpiDtDxe.inf
 [Components.AARCH64]
   MdeModulePkg/Universal/Acpi/BootGraphicsResourceTableDxe/BootGraphicsResourceTableDxe.inf
+  ArmPkg/Drivers/ArmPsciMpServicesDxe/ArmPsciMpServicesDxe.inf {
+    <LibraryClasses>
+      MpInitLib|UefiCpuPkg/Library/MpInitLib/DxeMpInitLib.inf
+  }
+  UefiCpuPkg/Application/MpInitTest/MpInitLibDxeTest.inf {
+    <LibraryClasses>
+      MpInitLib|UefiCpuPkg/Library/MpInitLib/DxeMpInitLib.inf
+  }
+  UefiCpuPkg/Application/MpInitTest/MpServiceProtocolTest.inf
   OvmfPkg/AcpiPlatformDxe/AcpiPlatformDxe.inf {
     <LibraryClasses>
       NULL|OvmfPkg/Fdt/FdtPciPcdProducerLib/FdtPciPcdProducerLib.inf

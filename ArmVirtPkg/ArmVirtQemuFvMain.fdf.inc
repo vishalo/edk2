@@ -80,6 +80,13 @@ READ_LOCK_STATUS   = TRUE
   INF ArmPkg/Drivers/ArmGicDxe/ArmGicV2Dxe.inf
   INF ArmPkg/Drivers/ArmGicDxe/ArmGicDxe.inf
   INF ArmPkg/Drivers/TimerDxe/TimerDxe.inf
+
+  #
+  # MpInitLib and EFI_MP_SERVICES_PROTOCOL tests
+  #
+  INF ArmPkg/Drivers/ArmPsciMpServicesDxe/ArmPsciMpServicesDxe.inf
+  INF UefiCpuPkg/Application/MpInitTest/MpInitLibDxeTest.inf
+  INF UefiCpuPkg/Application/MpInitTest/MpServiceProtocolTest.inf
   INF OvmfPkg/VirtNorFlashDxe/VirtNorFlashDxe.inf
   INF MdeModulePkg/Universal/WatchdogTimerDxe/WatchdogTimer.inf
   INF SecurityPkg/RandomNumberGenerator/RngDxe/RngDxe.inf
